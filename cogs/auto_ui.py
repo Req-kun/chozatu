@@ -20,8 +20,8 @@ class Autoui(commands.Cog):
     async def on_message(self, message):
         if not message.channel.id == 738397603439444028:
             return
-        if message.content.endswith('が第1認証を突破しました。'):
-            member_ob = message.guild.get_member(int(str(re.sub("\\D", "", message.content))[:-1]))
+        if message.content.endswith('が鯖に来ました') and message.author.id == 242730576195354624:
+            member_ob = message.guild.get_member(int(str(re.sub("\\D", "", message.content))))
             await message.channel.send(
             embed=make(
                 title='ユーザ情報',
