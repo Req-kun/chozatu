@@ -48,8 +48,10 @@ class Yutron(commands.Cog):
                 await ctx.send(content='画像の追加は運営のみ可能となっています。', complete_hidden=True)
                 return
             if image_url in self.bot.yutron_images:
+                await ctx.send(content='この画像は既に登録されています。', complete_hidden=True)
                 return
             if not image_url.startswith('https://'):
+                await ctx.send(content='画像はURLで指定してください。', complete_hidden=True)
                 return
             await self.bot.yutron_backup.send(content=image_url)
             self.bot.yutron_images.append(image_url)
