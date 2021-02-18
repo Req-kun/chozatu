@@ -20,7 +20,7 @@ class Pin(commands.Cog):
                 payload.guild = self.bot.get_guild(payload.guild_id)
                 payload.channel = self.bot.get_channel(payload.channel_id)
                 payload.message = await payload.channel.fetch_message(payload.message_id)
-                if payload.message.author.id != 804649928638595093:
+                if payload.message.author.id == 804649928638595093:
                     return
                 member = payload.member
                 files = []
