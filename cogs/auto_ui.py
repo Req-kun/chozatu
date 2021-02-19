@@ -35,11 +35,11 @@ class Autoui(commands.Cog):
     async def on_member_remove(self, member):
         async for msg in self.bot.unei_ch.history(limit=50):
             if not msg.author.id == 804649928638595093:
-                return
+                continue
             if len(msg.embeds) > 0:
                 embed = msg.embeds[0]
                 if not embed.title == 'ユーザ情報':
-                    return
+                    continue
                 if embed.author.name.endswith(f'{str(member.id)})'):
                     await msg.edit(embed=make(
                         title=embed.title,
