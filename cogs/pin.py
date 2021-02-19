@@ -10,6 +10,7 @@ class Pin(commands.Cog):
     @commands.command(name='pin')
     @commands.has_permissions(administrator=True)
     async def _pin(self, ctx, message_id):
+        files = []
         message = await ctx.channel.fetch_message(int(message_id))
         if len(message.attachments) > 0:
             async with aiohttp.ClientSession() as session:
