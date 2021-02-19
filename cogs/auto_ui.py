@@ -20,8 +20,8 @@ class Autoui(commands.Cog):
     async def on_message(self, message):
         if not message.channel.id == 738397603439444028:
             return
-        if message.content.endswith('が鯖に来ました'):
-            member_ob = message.guild.get_member(int(str(re.sub("\\D", "", message.content))))
+        if message.content.endswith('が第1認証を突破しました。'):
+            member_ob = message.guild.get_member(int(str(re.sub("\\D", "", message.content))[:-1]))
             await message.channel.send(
             embed=make(
                 title='ユーザ情報',
@@ -34,6 +34,19 @@ class Autoui(commands.Cog):
                     {"name": "ロール", "value": ', '.join([r.mention for r in member_ob.roles])}
                 ]
             ))
+
+    @commands.Cog.listener()
+    async def on_member_remove(self, member):
+        async for msg in self.bot.unei_ch.history(limit=50):
+            if len(msg.embeds) > 0:
+                embed = msg.embeds[0]
+                if embed.author.name.endswith(f'{str(member.id)})'):
+                    await msg.edit(embed=make(
+                        title=embed.title,
+                        description='サーバー脱退済み',
+                        author={"name": embed.author.name, "icon_url": embed.author.icon_url}
+                    ))
+                    return
 
 def setup(bot):
     return bot.add_cog(Autoui(bot))
