@@ -17,12 +17,8 @@ class Autoui(commands.Cog):
         self._last_member = None
 
     @commands.Cog.listener()
-    async def on_message(self, message):
-        if not message.channel.id == 738397603439444028:
-            return
-        if message.content.endswith('が第1認証を突破しました。'):
-            member_ob = message.guild.get_member(int(str(re.sub("\\D", "", message.content))[:-1]))
-            await message.channel.send(
+    async def on_member_join(self, member):
+        await self.bot.unei_ch.send(
             embed=make(
                 title='ユーザ情報',
                 description='この情報で表示されている時間情報はUTCを用いられています。\n日本(東京)時間への変換は `+9時間` してください。',
@@ -38,8 +34,12 @@ class Autoui(commands.Cog):
     @commands.Cog.listener()
     async def on_member_remove(self, member):
         async for msg in self.bot.unei_ch.history(limit=50):
+            if not msg.author.id == 804649928638595093:
+                return
             if len(msg.embeds) > 0:
                 embed = msg.embeds[0]
+                if not embed.title == 'ユーザ情報':
+                    return
                 if embed.author.name.endswith(f'{str(member.id)})'):
                     await msg.edit(embed=make(
                         title=embed.title,
