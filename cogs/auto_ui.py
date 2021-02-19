@@ -42,8 +42,7 @@ class Autoui(commands.Cog):
                     continue
                 if embed.author.name.endswith(f'{str(member.id)})'):
                     await msg.edit(embed=make(
-                        title=embed.title,
-                        description='サーバー脱退済み',
+                        title='ユーザ情報だったもの\nサーバー脱退済み',
                         author={"name": embed.author.name, "icon_url": embed.author.icon_url}
                     ))
                     return
