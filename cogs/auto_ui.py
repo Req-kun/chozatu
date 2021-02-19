@@ -22,12 +22,12 @@ class Autoui(commands.Cog):
             embed=make(
                 title='ユーザ情報',
                 description='この情報で表示されている時間情報はUTCを用いられています。\n日本(東京)時間への変換は `+9時間` してください。',
-                author={"name": f'{member_ob.name}(ID:{member_ob.id})', "icon_url": member_ob.avatar_url},
+                author={"name": f'{member.name}(ID:{member.id})', "icon_url": member.avatar_url},
                 fields=[
-                    {"name": "アカウント作成日時", "value": member_ob.created_at},
-                    {"name": "サーバー参加日時", "value": member_ob.joined_at},
-                    {"name": "ステータス", "value": status_dict[str(member_ob.status)]},
-                    {"name": "ロール", "value": ', '.join([r.mention for r in member_ob.roles])}
+                    {"name": "アカウント作成日時", "value": member.created_at},
+                    {"name": "サーバー参加日時", "value": member.joined_at},
+                    {"name": "ステータス", "value": status_dict[str(member.status)]},
+                    {"name": "ロール", "value": ', '.join([r.mention for r in member.roles])}
                 ]
             ))
 
