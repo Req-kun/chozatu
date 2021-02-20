@@ -30,6 +30,10 @@ print('#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#')
 print(f'\n    ALL COG WAS LOADED\n    COG COUNT : {count}\n    {datetime.datetime.now().strftime("%H : %M : %S")}\n')
 print('#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#')
 
+@bot.check
+def check_commands(ctx):
+    return ctx.guild.id == 733707710784340100
+
 @bot.event
 async def on_ready():
     #bot_id, token, guild_id
@@ -92,6 +96,9 @@ async def on_ready():
 
 @bot.event
 async def on_slash_command(ctx):
+    if not ctx.guild.id == 733707710784340100:
+        return
+
     used_command = ctx.name
     used_channel = ctx.channel.mention
     used_author = ctx.author.mention
