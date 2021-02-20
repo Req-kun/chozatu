@@ -4,13 +4,7 @@ from discord_embed_extensions import make
 import asyncio
 import re
 
-status_dict = {
-    "offline": "オフライン",
-    "online": "オンライン",
-    "idle": "退席中",
-    "dnd": "取り込み中",
-    "do_not_disturb": "取り込み中"
-}
+
 class Autoui(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -18,6 +12,8 @@ class Autoui(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        if message.author.bot:
+            return
         if not message.channel.id == 739056631647830076:
             return
 
@@ -44,6 +40,8 @@ class Autoui(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        if member.bot:
+            return
         await self.bot.unei_ch.send(
             embed=make(
                 title='ユーザ情報',
@@ -68,6 +66,8 @@ class Autoui(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
+        if member.bot:
+            return
         async for msg in self.bot.unei_ch.history(limit=100):
             if not msg.author.id == 804649928638595093:
                 continue
