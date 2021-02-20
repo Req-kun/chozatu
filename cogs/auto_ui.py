@@ -12,6 +12,8 @@ class Autoui(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        if not message.guild.id == 733707710784340100:
+            return
         if message.author.bot:
             return
         if not message.channel.id == 739056631647830076:
@@ -34,12 +36,15 @@ class Autoui(commands.Cog):
                             {"name": "サーバー参加日時", "value": message.author.joined_at},
                             {"name": "認証情報", "value": message.content, "inline": False}
                         ],
-                        footer={"text": f"-approve {message.author.id}"}
+                        footer={"text": f"-approve {message.author.id}"},
+                        color=0x00ffff
                     ))
                     return
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        if not member.guild.id == 733707710784340100:
+            return
         if member.bot:
             return
         await self.bot.unei_ch.send(
@@ -66,6 +71,8 @@ class Autoui(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
+        if not member.guild.id == 733707710784340100:
+            return
         if member.bot:
             return
         async for msg in self.bot.unei_ch.history(limit=100):
