@@ -81,7 +81,7 @@ async def on_ready():
 
     # 起動情報関連
     ready_ch = bot.get_channel(807444910621720606)
-    await ready_ch.send('起動')
+    await ready_ch.send('<a:server_rotation:774429204673724416>起動')
 
     #運営部屋取得
     bot.unei_ch = bot.get_channel(738397603439444028)
