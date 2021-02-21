@@ -5,7 +5,7 @@ import asyncio
 import re
 import datetime
 
-class time:
+class Delta_to:
     def __init__(self, day, hour, min, sec, milli, micro):
         self.day = day
         self.hour = hour
@@ -13,6 +13,8 @@ class time:
         self.sec = sec
         self.milli = milli
         self.micro = micro
+    def __str__(self):
+        return f"Delta_to(day={self.day}, hour={self.hour}, min={self.min}, sec={self.sec}, milli={self.milli}, micro={self.micro})"
 
 def trans(delta):
     day = delta.days
@@ -25,7 +27,7 @@ def trans(delta):
 
     milli = int(delta.microseconds / 1000)
     micro = int(delta.microseconds - milli * 1000)
-    return time(day, hour, min, sec, milli, micro)
+    return Delta_to(day, hour, min, sec, milli, micro)
 
 class Autoui(commands.Cog):
     def __init__(self, bot):
