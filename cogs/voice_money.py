@@ -9,7 +9,7 @@ import random
 timezone = pytz.timezone('UTC')
 
 UB_API_TOKEN = os.environ.get('CHOZATU_UB_API_TOKEN')
-ub_api_url = 'https://unbelievaboat.com/api/v1/guilds/738938231797579826/users/'
+ub_api_url = 'https://unbelievaboat.com/api/v1/guilds/733707710784340100/users/'
 header = {'Authorization': UB_API_TOKEN, 'Accept': 'application/json'}
 
 
