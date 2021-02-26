@@ -1,0 +1,62 @@
+import discord
+from discord.ext import commands
+from discord_slash import cog_ext
+from discord_slash import SlashCommand
+from discord_slash import SlashContext
+from random import randint
+
+class Yutron(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @cog_ext.cog_subcommand(base="fun", name="yutron",
+    base_description="楽しもう！", description="ユトロンの画像たち",
+    guild_ids=[733707710784340100],
+    options=[
+        {
+            "name": "mode",
+            "description": "画像を追加/表示 ※追加は運営のみ可能",
+            "type": 3,
+            "required": True,
+            "choices": [
+                {
+                    "name": "add",
+                    "value": "add"
+                },
+                {
+                    "name": "send",
+                    "value": "send"
+                }
+            ]
+        },
+        {
+            "name": "image_url",
+            "description": "追加する画像のURL(モードで`send`を選択していた場合は無視されます)",
+            "type": 3,
+            "required": False
+        }
+    ])
+    async def _test(self, ctx, mode, image_url = ''):
+
+        if mode == 'add':
+            if not self.bot.unei_role in ctx.author.roles:
+                await ctx.send(content='画像の追加は運営のみ可能となっています。', hidden=True)
+                return
+            if image_url in self.bot.yutron_images:
+                await ctx.send(content='この画像は既に登録されています。', hidden=True)
+                return
+            if not image_url.startswith('https://'):
+                await ctx.send(content='画像はURLで指定してください。', hidden=True)
+                return
+            await self.bot.yutron_backup.send(content=image_url)
+            self.bot.yutron_images.append(image_url)
+            await ctx.send(content='画像の追加が完了しました。', hidden=True)
+            return
+        if mode == 'send':
+            await ctx.send(content=self.bot.yutron_images[randint(0, len(self.bot.yutron_images)-1)])
+            return
+
+
+
+def setup(bot):
+    bot.add_cog(Yutron(bot))
