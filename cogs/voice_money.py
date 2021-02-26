@@ -24,6 +24,9 @@ class Voice_money(commands.Cog):
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
+        if member.bot:
+            return
+            
         # join
         # 新規で入る、入ったチャンネルがafkチャンネルではない
         if before.channel == None and not after.afk:
