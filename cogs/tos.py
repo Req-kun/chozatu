@@ -59,13 +59,13 @@ class Tos(commands.Cog):
     async def _tos(self, ctx, rule, visibility = 'False'):
         if visibility == 'True':
             if not self.bot.unei_role in ctx.author.roles:
-                await ctx.send(content="このモードは運営のみ選択可能です。", complete_hidden=True)
+                await ctx.send(content="このモードは運営のみ選択可能です。", hidden=True)
                 return
 
             await ctx.send(content=self.bot.rules[rule])
             return
         else:
-            await ctx.send(content=self.bot.rules[rule], complete_hidden=True)
+            await ctx.send(content=self.bot.rules[rule], hidden=True)
 
 
 
