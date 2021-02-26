@@ -59,8 +59,8 @@ async def on_ready():
     bot.scs_backup = bot.get_channel(809788276801667083)
     bot.scs_images = []
     async for msg in bot.scs_backup.history(limit=None):
-            if msg.content.startswith('https://'):
-                bot.scs_images.append(msg.content)
+        if msg.content.startswith('https://'):
+            bot.scs_images.append(msg.content)
 
     # rule コマンド関連
     rule_basic_ch = bot.get_channel(734062426873397248)
@@ -89,6 +89,12 @@ async def on_ready():
 
     #運営部屋取得
     bot.unei_ch = bot.get_channel(738397603439444028)
+
+    # ボイスチャット時間報酬関連
+    bot.voice_time_ch = bot.get_channel(814705911032578118)
+    bot.voice_money_min = 200
+    bot.voice_money_max = 400
+    bot.voice_give_per = 20
 
     # その他
     print("ready")
