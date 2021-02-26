@@ -6,31 +6,6 @@ from discord_slash import SlashContext
 import datetime
 
 
-class Delta_to:
-    def __init__(self, day, hour, min, sec, milli, micro):
-        self.day = day
-        self.hour = hour
-        self.min = min
-        self.sec = sec
-        self.milli = milli
-        self.micro = micro
-    def __str__(self):
-        return f"Delta_to(day={self.day}, hour={self.hour}, min={self.min}, sec={self.sec}, milli={self.milli}, micro={self.micro})"
-
-def trans(delta):
-    day = delta.days
-
-    hour = delta.seconds // 3600
-
-    min = (delta.seconds - hour * 3600) // 60
-
-    sec = delta.seconds - (hour * 3600) - (min * 60)
-
-    milli = int(delta.microseconds / 1000)
-    micro = int(delta.microseconds - milli * 1000)
-    return Delta_to(day, hour, min, sec, milli, micro)
-
-
 class Joining(commands.Cog):
     def __init__(self, bot):
         if not hasattr(bot, "slash"):
@@ -77,6 +52,31 @@ class Joining(commands.Cog):
         )
         await ctx.send(embeds=[embed])
         return
+
+
+class Delta_to:
+    def __init__(self, day, hour, min, sec, milli, micro):
+        self.day = day
+        self.hour = hour
+        self.min = min
+        self.sec = sec
+        self.milli = milli
+        self.micro = micro
+    def __str__(self):
+        return f"Delta_to(day={self.day}, hour={self.hour}, min={self.min}, sec={self.sec}, milli={self.milli}, micro={self.micro})"
+
+def trans(delta):
+    day = delta.days
+
+    hour = delta.seconds // 3600
+
+    min = (delta.seconds - hour * 3600) // 60
+
+    sec = delta.seconds - (hour * 3600) - (min * 60)
+
+    milli = int(delta.microseconds / 1000)
+    micro = int(delta.microseconds - milli * 1000)
+    return Delta_to(day, hour, min, sec, milli, micro)
 
 
 def setup(bot):
