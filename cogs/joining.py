@@ -52,7 +52,7 @@ class Joining(commands.Cog):
             "required": False
         }
     ])
-    async def _chouzatudan_bulkrole(self, ctx, user = None):
+    async def _joining(self, ctx, user = None):
         now = datetime.datetime.now()
         if user == None:
             user = ctx.author
