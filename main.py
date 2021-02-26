@@ -11,6 +11,8 @@ bottle.BaseRequest.MEMFILE_MAX = 99999999999999999999999999999999999999999999999
 TOKEN = os.environ.get("TOKEN")
 bot = commands.Bot(command_prefix='c/', intents=discord.Intents.all())
 
+slash = SlashCommand(bot, override_type=True)
+
 from glob import glob
 files = glob('./cogs/*')
 
