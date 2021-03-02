@@ -19,7 +19,5 @@ class Someone(commands.Cog):
         return
 
 
-
-
 def setup(bot):
-    return bot.add_cog(Fugou(bot))
+    return bot.add_cog(Someone(bot))
