@@ -10,7 +10,7 @@ class Someone(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if not message.content == '@someone'
+        if not message.content == '@someone':
             return
         if not message.author.guild_permissions.administrator:
             return
