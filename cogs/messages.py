@@ -57,80 +57,85 @@ class Messages(commands.Cog):
 
         elif not user == None:
             keisokunow = await ctx.send(embed=discord.Embed(title='計測中…', color=discord.Colour.dark_theme()))
-            if bot == 'yes':
-                count = 0
-                async for msg in ctx.channel.history(limit=limit):
-                    if msg.author.id == user.id:
-                        count += 1
-                embed = discord.Embed(
-                            title='結果',
-                            description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ユーザーのメッセージです。\nfrom: {ctx.author.mention}\nto: {user.mention}',
-                            color=0x00ffff
-                        )
-                embed.set_footer(text='チャンネルの総メッセージ数がlimitで指定された値に満たない場合、適切でない値が返される場合があります。')
-                await keisokunow.edit(embed=embed)
-                return
+            try:
+                if bot == 'yes':
+                    count = 0
+                    async for msg in ctx.channel.history(limit=limit):
+                        if msg.author.id == user.id:
+                            count += 1
+                    embed = discord.Embed(
+                                title='結果',
+                                description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ユーザーのメッセージです。\nfrom: {ctx.author.mention}\nto: {user.mention}',
+                                color=0x00ffff
+                            )
+                    embed.set_footer(text='チャンネルの総メッセージ数がlimitで指定された値に満たない場合、適切でない値が返される場合があります。')
+                    await keisokunow.edit(embed=embed)
+                    return
 
-            else:
-                count = 0
-                msg_count = 0
-                async for msg in ctx.channel.history(limit=None):
-                    if msg_count > limit:
-                        break
-                    if msg.author.bot:
-                        continue
+                else:
+                    count = 0
+                    msg_count = 0
+                    async for msg in ctx.channel.history(limit=None):
+                        if msg_count > limit:
+                            break
+                        if msg.author.bot:
+                            continue
 
-                    if msg.author.id == user.id:
-                        count += 1
-                    msg_count += 1
+                        if msg.author.id == user.id:
+                            count += 1
+                        msg_count += 1
 
-                embed = discord.Embed(
-                            title='結果',
-                            description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ユーザーのメッセージです。\nfrom: {ctx.author.mention}\nto: {user.mention}',
-                            color=0x00ffff
-                        )
-                embed.set_footer(text='チャンネルの総メッセージ数がlimitで指定された値に満たない場合、適切でない値が返される場合があります。')
-                await keisokunow.edit(embed=embed)
-                return
-
+                    embed = discord.Embed(
+                                title='結果',
+                                description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ユーザーのメッセージです。\nfrom: {ctx.author.mention}\nto: {user.mention}',
+                                color=0x00ffff
+                            )
+                    embed.set_footer(text='チャンネルの総メッセージ数がlimitで指定された値に満たない場合、適切でない値が返される場合があります。')
+                    await keisokunow.edit(embed=embed)
+                    return
+            except Exception as e:
+                await keisokunow.edit(embed=discord.Embed(title='エラー', description=f'```{e}```', color=0xff0000))
 
         elif user == None and not role == None:
             keisokunow = await ctx.send(embed=discord.Embed(title='計測中…', color=discord.Colour.dark_theme()))
-            if bot == 'yes':
-                count = 0
-                async for msg in ctx.channel.history(limit=limit):
-                    if role in msg.author.roles:
-                        count += 1
-                embed = discord.Embed(
-                            title='結果',
-                            description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ロールのメッセージです。\nfrom: {ctx.author.mention}\nto: {role.mention}',
-                            color=0x00ffff
-                        )
-                embed.set_footer(text='チャンネルの総メッセージ数がlimitで指定された値に満たない場合、適切でない値が返される場合があります。')
-                await keisokunow.edit(embed=embed)
-                return
+            try:
+                if bot == 'yes':
+                    count = 0
+                    async for msg in ctx.channel.history(limit=limit):
+                        if role in msg.author.roles:
+                            count += 1
+                    embed = discord.Embed(
+                                title='結果',
+                                description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ロールのメッセージです。\nfrom: {ctx.author.mention}\nto: {role.mention}',
+                                color=0x00ffff
+                            )
+                    embed.set_footer(text='チャンネルの総メッセージ数がlimitで指定された値に満たない場合、適切でない値が返される場合があります。')
+                    await keisokunow.edit(embed=embed)
+                    return
 
-            else:
-                count = 0
-                msg_count = 0
-                async for msg in ctx.channel.history(limit=None):
-                    if msg_count > limit:
-                        break
-                    if msg.author.bot:
-                        continue
+                else:
+                    count = 0
+                    msg_count = 0
+                    async for msg in ctx.channel.history(limit=None):
+                        if msg_count > limit:
+                            break
+                        if msg.author.bot:
+                            continue
 
-                    if role in msg.author.roles:
-                        count += 1
-                    msg_count += 1
+                        if role in msg.author.roles:
+                            count += 1
+                        msg_count += 1
 
-                embed = discord.Embed(
-                            title='結果',
-                            description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ロールのメッセージです。\nfrom: {ctx.author.mention}\nto: {role.mention}',
-                            color=0x00ffff
-                        )
-                embed.set_footer(text='チャンネルの総メッセージ数がlimitで指定された値に満たない場合、適切でない値が返される場合があります。')
-                await keisokunow.edit(embed=embed)
-                return
+                    embed = discord.Embed(
+                                title='結果',
+                                description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ロールのメッセージです。\nfrom: {ctx.author.mention}\nto: {role.mention}',
+                                color=0x00ffff
+                            )
+                    embed.set_footer(text='チャンネルの総メッセージ数がlimitで指定された値に満たない場合、適切でない値が返される場合があります。')
+                    await keisokunow.edit(embed=embed)
+                    return
+            except Exception as e:
+                await keisokunow.edit(embed=discord.Embed(title='エラー', description=f'```{e}```', color=0xff0000))
 
 
 def setup(bot):
