@@ -108,10 +108,12 @@ async def on_slash_command(ctx):
         return
 
     used_command = ctx.name
+    used_subcommand = ctx.subcommand_name
     used_channel = ctx.channel.mention
     used_author = ctx.author.mention
     embed = discord.Embed(title='コマンドが実行されました')
     embed.add_field(name='コマンド名', value=used_command)
+    embed.add_field(name='サブコマンド名', value=used_subcommand)
     embed.add_field(name='使用されたチャンネル', value=used_channel)
     embed.add_field(name='使用者', value=used_author)
     await bot.history_channel.send(embed=embed, allowed_mentions=discord.AllowedMentions.none())
