@@ -65,7 +65,7 @@ class Messages(commands.Cog):
                             count += 1
                     embed = discord.Embed(
                                 title='結果',
-                                description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ユーザーのメッセージです。\nfrom: {ctx.author.mention}\nto: {user.mention}',
+                                description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ユーザーのメッセージです。\nfrom: {ctx.author.mention}\nto: {user.mention}\nbot: {bot}',
                                 color=0x00ffff
                             )
                     embed.set_footer(text='チャンネルの総メッセージ数がlimitで指定された値に満たない場合、適切でない値が返される場合があります。')
@@ -87,7 +87,7 @@ class Messages(commands.Cog):
 
                     embed = discord.Embed(
                                 title='結果',
-                                description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ユーザーのメッセージです。\nfrom: {ctx.author.mention}\nto: {user.mention}',
+                                description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ユーザーのメッセージです。\nfrom: {ctx.author.mention}\nto: {user.mention}\nbot: {bot}',
                                 color=0x00ffff
                             )
                     embed.set_footer(text='チャンネルの総メッセージ数がlimitで指定された値に満たない場合、適切でない値が返される場合があります。')
@@ -106,7 +106,7 @@ class Messages(commands.Cog):
                             count += 1
                     embed = discord.Embed(
                                 title='結果',
-                                description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ロールのメッセージです。\nfrom: {ctx.author.mention}\nto: {role.mention}',
+                                description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ロールのメッセージです。\nfrom: {ctx.author.mention}\nto: {role.mention}\nbot: {bot}',
                                 color=0x00ffff
                             )
                     embed.set_footer(text='チャンネルの総メッセージ数がlimitで指定された値に満たない場合、適切でない値が返される場合があります。')
@@ -128,7 +128,7 @@ class Messages(commands.Cog):
 
                     embed = discord.Embed(
                                 title='結果',
-                                description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ロールのメッセージです。\nfrom: {ctx.author.mention}\nto: {role.mention}',
+                                description=f'{limit} メッセージ中 {count} メッセージ({round(count / limit *100, 1)} %)が指定ロールのメッセージです。\nfrom: {ctx.author.mention}\nto: {role.mention}\nbot: {bot}',
                                 color=0x00ffff
                             )
                     embed.set_footer(text='チャンネルの総メッセージ数がlimitで指定された値に満たない場合、適切でない値が返される場合があります。')
