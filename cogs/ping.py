@@ -19,7 +19,7 @@ class Ping(commands.Cog):
         message_latency = (msg.created_at - now).microseconds
         socket_latency = self.bot.latency
 
-        await msg.edit(content=f'Pong! :ping_pong:', embed=(discord.Embed(title='計測結果', description=f'websocket: `{round(socket_latency*1000, 1)}ms`\nmessage: `{round(message_latency/1000, 1)}`\ncommand: `{round(command_latency/1000, 1)}`')).set_footer(text='この計測値はあくまでも目安であり、正しくない可能性があります'))
+        await msg.edit(content=f'Pong! :ping_pong:', embed=(discord.Embed(title='計測結果', description=f'websocket: `{round(socket_latency*1000, 1)}ms`\nmessage: `{round(message_latency/1000, 1)}ms`\ncommand: `{round(command_latency/1000, 1)}ms`', color=0x00ffff)).set_footer(text='この計測値はあくまでも目安であり、正しくない可能性があります'))
         return
 
 def setup(bot):
