@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import aiohttp
 import os
-from json import loads
+from json import loads, dumps
 
 UB_API_TOKEN = os.environ.get('CHOZATU_UB_API_TOKEN')
 url = 'https://unbelievaboat.com/api/v1/guilds/'
@@ -33,7 +33,7 @@ class Money(commands.Cog):
                 json = await r.json()
                 embed = discord.Embed(color=0x00ffff)
                 embed.add_field(name='Request url', value=f'```{url}{ctx.guild.id}/users/{user_id}```', inline=False)
-                embed.add_field(name='Response json', value=f'```json\n{json}```', inline=False)
+                embed.add_field(name='Response json', value=f'```json\n{dumps(json)}```', inline=False)
                 await rep.edit(embed=embed)
                 return
 
@@ -49,7 +49,7 @@ class Money(commands.Cog):
                 embed = discord.Embed(color=0x00ffff)
                 embed.add_field(name='Request url', value=f'```{url}{ctx.guild.id}/users/{user_id}```', inline=False)
                 embed.add_field(name='Request payload', value=f'```json\n{_json}```', inline=False)
-                embed.add_field(name='Response json', value=f'```json\n{json}```', inline=False)
+                embed.add_field(name='Response json', value=f'```json\n{dumps(json)}```', inline=False)
                 await rep.edit(embed=embed)
                 return
 
@@ -65,7 +65,7 @@ class Money(commands.Cog):
                 embed = discord.Embed(color=0x00ffff)
                 embed.add_field(name='Request url', value=f'```{url}{ctx.guild.id}/users/{user_id}```', inline=False)
                 embed.add_field(name='Request payload', value=f'```json\n{_json}```', inline=False)
-                embed.add_field(name='Response json', value=f'```json\n{json}```', inline=False)
+                embed.add_field(name='Response json', value=f'```json\n{dumps(json)}```', inline=False)
                 await rep.edit(embed=embed)
                 return
 
