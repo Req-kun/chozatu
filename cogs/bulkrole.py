@@ -156,7 +156,7 @@ class Slash_bulk(commands.Cog):
                     continue
             kekka_embed = discord.Embed(title='付与結果',
             description=kekka('add', success, already, bot_mem, error, error_reasons), color=ctx.guild.me.color)
-            await ctx.send(embeds=[kekka_embed])
+            await channel.send(embeds=[kekka_embed])
             return
 
         elif option == 'remove':
