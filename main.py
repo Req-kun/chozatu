@@ -106,9 +106,9 @@ async def on_ready():
     bot.voice_give_per = 20
 
     # NG_WORD 関連
-    ng_word_ch = bot.get_channel(818012708167221248)
+    bot.ng_word_ch = bot.get_channel(818012708167221248)
     bot.ng_words = []
-    async for msg in ng_word_ch.history(limit=None):
+    async for msg in bot.ng_word_ch.history(limit=None):
         bot.ng_words.append(msg.content)
 
 
