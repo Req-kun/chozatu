@@ -13,6 +13,9 @@ bot = commands.Bot(command_prefix='c/', intents=discord.Intents.all())
 
 slash = SlashCommand(bot, sync_commands=True)
 
+bot.ready = False
+
+
 from glob import glob
 files = glob('./cogs/*')
 
@@ -32,12 +35,16 @@ print('#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#')
 print(f'\n    ALL COG WAS LOADED\n    COG COUNT : {count}\n    {datetime.datetime.now().strftime("%H : %M : %S")}\n')
 print('#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#')
 
+
 @bot.check
 def check_commands(ctx):
     return ctx.guild.id == 733707710784340100
 
+
 @bot.event
 async def on_ready():
+    if bot.ready:
+        return
     #bot_id, token, guild_id
     #await utils.manage_commands.remove_all_commands_in(804649928638595093, TOKEN, 733707710784340100)
 
@@ -98,7 +105,15 @@ async def on_ready():
     bot.voice_money_max = 400
     bot.voice_give_per = 20
 
+    # NG_WORD 関連
+    ng_word_ch = bot.get_channel(818012708167221248)
+    bot.ng_words = []
+    async for msg in ng_word_ch.history(limit=None):
+        bot.ng_words.append(msg.content)
+
+
     # その他
+    bot.ready = True
     print("ready")
     return
 
