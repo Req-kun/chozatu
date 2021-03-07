@@ -37,6 +37,8 @@ class Ng_word(commands.Cog):
     async def on_message(self, message):
         if not self.bot.ready:
             return
+        if message.author.bot:
+            return
         if message.content.startswith(f'{self.bot.command_prefix}ngw'):
             return
         for ng_word in self.bot.ng_words:
