@@ -8,6 +8,8 @@ class Ng_word(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        if not self.bot.ready:
+            return
         for ng_word in self.bot.ng_words:
             if ng_word in message.content:
                 await message.delete()
