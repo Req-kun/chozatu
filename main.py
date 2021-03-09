@@ -92,6 +92,9 @@ async def on_ready():
     #運営部屋取得
     bot.unei_ch = bot.get_channel(738397603439444028)
 
+    #認証部屋取得
+    bot.app_ch = bot.get_channnel(815906779736178728)
+
     # ボイスチャット時間報酬関連
     bot.voice_time_ch = bot.get_channel(814705911032578118)
     bot.voice_money_min = 200

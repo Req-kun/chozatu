@@ -46,7 +46,7 @@ class Autoui(commands.Cog):
         if payload.message.author.bot:
             return
 
-        async for msg in self.bot.unei_ch.history(limit=100):
+        async for msg in self.bot.app_ch.history(limit=100):
             if not msg.author.id == 804649928638595093:
                 continue
             if len(msg.embeds) > 0:
@@ -78,7 +78,7 @@ class Autoui(commands.Cog):
         if not message.channel.id == 739056631647830076:
             return
 
-        async for msg in self.bot.unei_ch.history(limit=100):
+        async for msg in self.bot.app_ch.history(limit=100):
             if not msg.author.id == 804649928638595093:
                 continue
             if len(msg.embeds) > 0:
@@ -106,7 +106,7 @@ class Autoui(commands.Cog):
             return
         if member.bot:
             return
-        await self.bot.unei_ch.send(
+        await self.bot.app_ch.send(
             embed=make(
                 title='ユーザ情報',
                 author={"name": f"{member.name}(ID: {member.id})", "icon_url": member.avatar_url},
@@ -114,7 +114,7 @@ class Autoui(commands.Cog):
             )
         )
         """
-        await self.bot.unei_ch.send(
+        await self.bot.app_ch.send(
             embed=make(
                 title='ユーザ情報',
                 description='この情報で表示されている時間情報はUTCを用いられています。\n日本(東京)時間への変換は `+9時間` してください。',
@@ -134,7 +134,7 @@ class Autoui(commands.Cog):
             return
         if member.bot:
             return
-        async for msg in self.bot.unei_ch.history(limit=100):
+        async for msg in self.bot.app_ch.history(limit=100):
             if not msg.author.id == 804649928638595093:
                 continue
             if len(msg.embeds) > 0:
