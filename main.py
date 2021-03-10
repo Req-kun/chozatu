@@ -4,9 +4,8 @@ import datetime
 from discord_slash import SlashCommand
 from discord_slash import SlashContext
 from discord_slash import utils
-import bottle
 import os
-bottle.BaseRequest.MEMFILE_MAX = 9999999999999999999999999999999999999999999999999999999999999999999999999999 # (or whatever you want)
+
 
 TOKEN = os.environ.get("TOKEN")
 bot = commands.Bot(command_prefix='c/', intents=discord.Intents.all())
@@ -98,6 +97,9 @@ async def on_ready():
 
     #運営部屋取得
     bot.unei_ch = bot.get_channel(738397603439444028)
+
+    # approve部屋取得
+    bot.approve_ch = bot.get_channel(815906779736178728)
 
     # ボイスチャット時間報酬関連
     bot.voice_time_ch = bot.get_channel(814705911032578118)
