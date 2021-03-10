@@ -5,6 +5,7 @@ import asyncio
 import re
 import datetime
 
+
 class Delta_to:
     def __init__(self, day, hour, min, sec, milli, micro):
         self.day = day
@@ -29,30 +30,44 @@ def trans(delta):
     micro = int(delta.microseconds - milli * 1000)
     return Delta_to(day, hour, min, sec, milli, micro)
 
+
 class Autoui(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
 
+
+    """ 認証メッセージ編集 """
     @commands.Cog.listener()
     async def on_raw_message_edit(self, payload):
         payload.channel = self.bot.get_channel(payload.channel_id)
         payload.message = await payload.channel.fetch_message(payload.message_id)
 
+        # 超雑談鯖以外をはじく
         if not payload.channel.guild.id == 733707710784340100:
             return
+
+        # 認証部屋以外をはじく
         if not payload.channel.id == 739056631647830076:
             return
+
+        # Botをはじく
         if payload.message.author.bot:
             return
 
-        async for msg in self.bot.unei_ch.history(limit=100):
+        # 認証情報メッセージをさがす
+        async for msg in self.bot.approve_ch.history(limit=100):
+            # 専属Bot以外をはじく
             if not msg.author.id == 804649928638595093:
                 continue
+
+            # 判定１
             if len(msg.embeds) > 0:
                 embed = msg.embeds[0]
+                # 判定２
                 if not embed.title == 'ユーザ情報':
                     continue
+                # 判定３
                 if embed.author.name.endswith(f'{str(payload.message.author.id)})'):
                     await msg.edit(embed=make(
                         title='ユーザ情報',
@@ -69,22 +84,36 @@ class Autoui(commands.Cog):
                     return
 
 
+    """ 認証メッセージ送信 """
     @commands.Cog.listener()
     async def on_message(self, message):
+        # 超雑談鯖以外をはじく
         if not message.guild.id == 733707710784340100:
             return
+
+        # Botをはじく
         if message.author.bot:
             return
+
+        # 認証部屋以外をはじく
         if not message.channel.id == 739056631647830076:
             return
 
-        async for msg in self.bot.unei_ch.history(limit=100):
+        # 送信待機メッセージをさがす
+        async for msg in self.bot.approve_ch.history(limit=100):
+            # 専属Bot以外をはじく
             if not msg.author.id == 804649928638595093:
                 continue
+
+            # 送信待機メッセージ判定１
             if len(msg.embeds) > 0:
                 embed = msg.embeds[0]
+
+                # 送信待機メッセージ判定２
                 if not embed.title == 'ユーザ情報':
                     continue
+
+                # 送信待機メッセージ判定３
                 if embed.author.name.endswith(f'{str(message.author.id)})'):
                     await msg.edit(embed=make(
                         title='ユーザ情報',
@@ -100,47 +129,59 @@ class Autoui(commands.Cog):
                     ))
                     return
 
+
+    """ サーバー参加 """
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        # 超雑談鯖以外をはじく
         if not member.guild.id == 733707710784340100:
             return
+
+        # Botをはじく
         if member.bot:
             return
-        await self.bot.unei_ch.send(
+
+        # 送信待機メッセージを送信
+        await self.bot.approve_ch.send(
             embed=make(
                 title='ユーザ情報',
                 author={"name": f"{member.name}(ID: {member.id})", "icon_url": member.avatar_url},
-                description='認証情報送信待機中…'
-            )
-        )
-        """
-        await self.bot.unei_ch.send(
-            embed=make(
-                title='ユーザ情報',
-                description='この情報で表示されている時間情報はUTCを用いられています。\n日本(東京)時間への変換は `+9時間` してください。',
-                author={"name": f'{member.name}(ID:{member.id})', "icon_url": member.avatar_url},
+                description='認証情報送信待機中…',
                 fields=[
                     {"name": "アカウント作成日時", "value": member.created_at},
-                    {"name": "サーバー参加日時", "value": member.joined_at},
-                    {"name": "ステータス", "value": status_dict[str(member.status)]},
-                    {"name": "ロール", "value": ', '.join([r.mention for r in member.roles])}
-                ]
-            ))
-        """
+                    {"name": "サーバー参加日時", "value": member.joined_at}
+                ],
+                footer={"text": f"-approve {member.id}"}
+            )
+        )
 
+
+    """ サーバー離脱 """
     @commands.Cog.listener()
     async def on_member_remove(self, member):
+        # 超雑談鯖以外をはじく
         if not member.guild.id == 733707710784340100:
             return
+
+        # Botをはじく
         if member.bot:
             return
-        async for msg in self.bot.unei_ch.history(limit=100):
+
+        # 送信待機メッセージ / ユーザ情報メッセージをさがす
+        async for msg in self.bot.approve_ch.history(limit=100):
+            # 専属Bot以外のメッセージをはじく
             if not msg.author.id == 804649928638595093:
                 continue
+
+            # 判定１
             if len(msg.embeds) > 0:
                 embed = msg.embeds[0]
+
+                # 判定２
                 if not embed.title == 'ユーザ情報':
                     continue
+
+                # 判定３
                 if embed.author.name.endswith(f'{str(member.id)})'):
                     now = datetime.datetime.now()
                     joined = member.joined_at
