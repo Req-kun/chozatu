@@ -5,6 +5,7 @@ from discord_slash import SlashCommand
 from discord_slash import SlashContext
 from discord_slash import utils
 import os
+import re
 
 
 TOKEN = os.environ.get("TOKEN")
@@ -34,6 +35,24 @@ print('#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#')
 print(f'\n    ALL COG WAS LOADED\n    COG COUNT : {count}\n    {datetime.datetime.now().strftime("%H : %M : %S")}\n')
 print('#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#')
 
+
+async def fetch_message(bot, argument):
+    id_regex = re.compile(r'(?:(?P<channel_id>[0-9]{15,21})-)?(?P<message_id>[0-9]{15,21})$')
+    link_regex = re.compile(
+        r'https?://(?:(ptb|canary|www)\.)?discord(?:app)?\.com/channels/'
+        r'(?:[0-9]{15,21}|@me)'
+        r'/(?P<channel_id>[0-9]{15,21})/(?P<message_id>[0-9]{15,21})/?$'
+    )
+    match = id_regex.match(argument) or link_regex.match(argument)
+    channel_id = match.group("channel_id")
+    message_id = int(match.group("message_id"))
+
+    channel = await bot.fetch_channel(channel_id)
+    message = await channel.fetch_message(message_id)
+    return message
+
+
+bot.fetch_message = fetch_message
 
 @bot.check
 def check_commands(ctx):
