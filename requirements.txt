@@ -3,3 +3,4 @@ discord-py-slash-command
 bottle
 discord-embed-extensions
 pytz
+requests
