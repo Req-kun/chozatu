@@ -8,6 +8,24 @@ import os
 import re
 
 
+async def fetch_message(self, url):
+    id_regex = re.compile(r'(?:(?P<channel_id>[0-9]{15,21})-)?(?P<message_id>[0-9]{15,21})$')
+    link_regex = re.compile(
+        r'https?://(?:(ptb|canary|www)\.)?discord(?:app)?\.com/channels/'
+        r'(?:[0-9]{15,21}|@me)'
+        r'/(?P<channel_id>[0-9]{15,21})/(?P<message_id>[0-9]{15,21})/?$'
+    )
+    match = id_regex.match(url) or link_regex.match(url)
+    channel_id = match.group("channel_id")
+    message_id = int(match.group("message_id"))
+
+    channel = await bot.fetch_channel(channel_id)
+    message = await channel.fetch_message(message_id)
+    return message
+
+commands.Bot.fetch_message = fetch_message
+
+
 TOKEN = os.environ.get("TOKEN")
 bot = commands.Bot(command_prefix='c/', intents=discord.Intents.all())
 
@@ -35,24 +53,6 @@ print('#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#')
 print(f'\n    ALL COG WAS LOADED\n    COG COUNT : {count}\n    {datetime.datetime.now().strftime("%H : %M : %S")}\n')
 print('#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#+#')
 
-
-async def fetch_message(bot, argument):
-    id_regex = re.compile(r'(?:(?P<channel_id>[0-9]{15,21})-)?(?P<message_id>[0-9]{15,21})$')
-    link_regex = re.compile(
-        r'https?://(?:(ptb|canary|www)\.)?discord(?:app)?\.com/channels/'
-        r'(?:[0-9]{15,21}|@me)'
-        r'/(?P<channel_id>[0-9]{15,21})/(?P<message_id>[0-9]{15,21})/?$'
-    )
-    match = id_regex.match(argument) or link_regex.match(argument)
-    channel_id = match.group("channel_id")
-    message_id = int(match.group("message_id"))
-
-    channel = await bot.fetch_channel(channel_id)
-    message = await channel.fetch_message(message_id)
-    return message
-
-
-bot.fetch_message = fetch_message
 
 @bot.check
 def check_commands(ctx):
