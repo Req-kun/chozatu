@@ -5,6 +5,7 @@ from discord_slash import SlashCommand
 from discord_slash import SlashContext
 from akinator.async_aki import Akinator
 import akinator
+import asyncio
 
 answers = {
     '0️⃣': 'y',
@@ -76,8 +77,19 @@ class Akinator(commands.Cog):
                     text='進行率: %7.3f' % aki.progression + f'% (回答: {accuracy}%)'
                 )
             )
-
-            r, u = await self.bot.wait_for('reaction_add', check=lambda r, u: u.id == author.id and r.emoji in answers.keys())
+            try:
+                r, u = await self.bot.wait_for('reaction_add', timeout=60.0, check=lambda r, u: u.id == author.id and r.emoji in answers.keys())
+            except asyncio.TimeoutError:
+                await msg.edit(embed=
+                    discord.Embed(
+                        title='60秒経過したためタイムアウトしました',
+                        color=0xff0000
+                    ).set_author(
+                        name=f'{author.display_name}({author.id})',
+                        icon_url=author.avatar_url
+                    )
+                )
+                return
 
             emoji = r.emoji
 
@@ -105,8 +117,19 @@ class Akinator(commands.Cog):
         )
         for r in list(answers.keys())[:2]:
             await msg.add_reaction(r)
-        r, u = await self.bot.wait_for('reaction_add', check=lambda r, u: r.emoji in list(answers.keys())[:2] and u.id == author.id)
-
+        try:
+            r, u = await self.bot.wait_for('reaction_add', timeout=60.0, check=lambda r, u: r.emoji in list(answers.keys())[:2] and u.id == author.id)
+        except asyncio.TimeoutError:
+            await msg.edit(embed=
+                discord.Embed(
+                    title='60秒経過したためタイムアウトしました',
+                    color=0xff0000
+                ).set_author(
+                    name=f'{author.display_name}({author.id})',
+                    icon_url=author.avatar_url
+                )
+            )
+            return
 
         if answers[r.emoji] == "y":
             await msg.edit(
