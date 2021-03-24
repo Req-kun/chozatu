@@ -64,7 +64,7 @@ class Akinator(commands.Cog):
 
         q = await aki.start_game(language='jp')
 
-        while aki.progression <= 80:
+        while aki.progression <= accuracy:
             await msg.edit(embed=
                 discord.Embed(
                     title=q,
