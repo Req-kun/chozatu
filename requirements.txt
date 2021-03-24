@@ -4,3 +4,4 @@ bottle
 discord-embed-extensions
 pytz
 requests
+akinator.py[async]
