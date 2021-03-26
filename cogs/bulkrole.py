@@ -128,6 +128,7 @@ class Slash_bulk(commands.Cog):
         }
     ])
     async def _chouzatudan_bulkrole(self, ctx, option, role):
+        await ctx.respond(eat=True)
         if ctx.author.id != ctx.guild.owner_id:
             await ctx.send(content=f'このコマンドはサーバーオーナーである {ctx.guild.owner.mention} 専用のコマンドです。', hidden=True, allowed_mentions=discord.AllowedMentions.none())
             return

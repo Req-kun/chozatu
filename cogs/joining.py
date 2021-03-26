@@ -22,6 +22,7 @@ class Joining(commands.Cog):
         }
     ])
     async def _joining(self, ctx, user = None):
+        await ctx.respond(eat=True)
         now = datetime.datetime.now()
         if user == None:
             user = ctx.author

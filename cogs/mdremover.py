@@ -20,6 +20,7 @@ class Soushoku_rem(commands.Cog):
         }
     ])
     async def _soushoku_rem(self, ctx, message_url):
+        await ctx.respond(eat=True)
         msg = await self.bot.fetch_message(message_url)
         content = msg.content.replace('\\', '').replace('`', '\\`').replace('|', '\\|').replace('*', '\\*').replace('_', '\\_').replace('~', '\\~').replace('[', '\\[')
         await ctx.send(content, hidden=True)

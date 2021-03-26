@@ -37,7 +37,7 @@ class Yutron(commands.Cog):
         }
     ])
     async def _test(self, ctx, mode, image_url = ''):
-
+        await ctx.respond(eat=True)
         if mode == 'add':
             if not self.bot.unei_role in ctx.author.roles:
                 await ctx.send(content='画像の追加は運営のみ可能となっています。', hidden=True)

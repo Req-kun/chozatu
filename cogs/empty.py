@@ -15,6 +15,7 @@ class Empty(commands.Cog):
     )
     async def _empty(self, ctx):
         await ctx.respond(eat=True)
+        await ctx.respond(eat=True)
         msg = await ctx.send(embeds=[discord.Embed()])
         await msg.edit(flags=4)
         return

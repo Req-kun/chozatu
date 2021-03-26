@@ -21,6 +21,7 @@ class Ukayg(commands.Cog):
         }
     ])
     async def _ukayg(self, ctx, sentence):
+        await ctx.respond(eat=True)
         await ctx.send(sentence[::-1])
         return
 
