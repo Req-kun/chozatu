@@ -18,10 +18,14 @@ async def edit(msg, embed):
     await msg.edit(embeds=[embed])
     
 def urlcreate(top, bottom, hoshii, noalpha, rainbow):
-    hoshii= 'true' if hoshii else 'false'
-    noalpha = 'true' if noalpha else 'false'
-    rainbow = 'true' if rainbow else 'false'
-    return f'http://5000choyen.app.cyberrex.ml/image?top={top}&bottom={bottom}&type=png&hoshii={hoshii}&noalpha={noalpha}&rainbow={rainbow}'
+    result = f'http://5000choyen.app.cyberrex.ml/image?top={top}&bottom={bottom}&type=png'
+    if hoshii:
+        result += '&hoshii=true'
+    if noalpha:
+        result += '&noalpha=true'
+    if rainbow:
+        result += '&rainbow=true'
+    return result
 
 cool = cooldown.CoolDown(15)
 class FiveThousand(commands.Cog):
