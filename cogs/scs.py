@@ -9,7 +9,7 @@ class Scs(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @cog_ext.cog_subcommand(base="fun", name="scs",
+    @cog_ext.cog_subcommand(base="image", name="scs",
     base_description="楽しもう！", description="サーバーのロゴたち",
     guild_ids=[733707710784340100],
     options=[
@@ -37,7 +37,7 @@ class Scs(commands.Cog):
         }
     ])
     async def _scs(self, ctx, mode, image_url = ''):
-        await ctx.respond(eat=True)
+         
         if mode == 'add':
             if not self.bot.unei_role in ctx.author.roles:
                 await ctx.send(content='画像の追加は運営のみ可能となっています。', hidden=True)

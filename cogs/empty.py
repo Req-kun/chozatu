@@ -14,8 +14,8 @@ class Empty(commands.Cog):
         guild_ids=[733707710784340100]
     )
     async def _empty(self, ctx):
-        await ctx.respond(eat=True)
-        await ctx.respond(eat=True)
+         
+         
         msg = await ctx.send(embeds=[discord.Embed()])
         await msg.edit(flags=4)
         return

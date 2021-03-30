@@ -49,7 +49,7 @@ class Messages(commands.Cog):
         }
     ])
     async def _messages(self, ctx, limit, bot, user = None, role = None):
-        await ctx.respond(eat=True)
+         
         if limit > 1000:
             await ctx.send('指定可能な最大メッセージ数は 1000 です', hidden=True)
         if user == None and role == None:

@@ -55,7 +55,7 @@ class Akinator(commands.Cog):
         }
     ])
     async def _akinator(self, ctx, accuracy):
-        await ctx.respond(eat=True)
+         
         author = ctx.author
         msg = await ctx.send(embed=discord.Embed(title='準備中...').set_author(name=f'{author.display_name}({author.id})', icon_url=author.avatar_url))
 
