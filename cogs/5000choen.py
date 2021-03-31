@@ -5,10 +5,11 @@ from discord_slash import SlashCommand
 from discord_slash import SlashContext
 import cooldown
 import traceback
+import urllib.parse
 
 
 def urlcreate(top, bottom, hoshii, noalpha, rainbow):
-    result = f'http://5000choyen.app.cyberrex.ml/image?top={top}&bottom={bottom}'
+    result = f'http://5000choyen.app.cyberrex.ml/image?top={urllib.parse.quote(top)}&bottom={urllib.parse.quote(bottom)}'
     if hoshii:
         result += '&hoshii=true'
     if noalpha:
