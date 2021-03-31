@@ -8,7 +8,7 @@ import traceback
 
 
 def urlcreate(top, bottom, hoshii, noalpha, rainbow):
-    result = f'http://5000choyen.app.cyberrex.ml/image?top={top}&bottom={bottom}&type=png'
+    result = f'http://5000choyen.app.cyberrex.ml/image?top={top}&bottom={bottom}'
     if hoshii:
         result += '&hoshii=true'
     if noalpha:
