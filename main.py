@@ -132,7 +132,6 @@ async def on_ready():
     async for msg in bot.ng_word_ch.history(limit=None):
         bot.ng_words.append(msg.content)
 
-    bot.five_thousand = bot.get_channel(825982353469734923)
       
     # その他
     bot.ready = True
