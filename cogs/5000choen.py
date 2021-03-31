@@ -18,7 +18,7 @@ def urlcreate(top, bottom, hoshii, noalpha, rainbow):
         result += '&rainbow=true'
     return result
 
-cool = cooldown.CoolDown(15)
+cool = cooldown.CoolDown(30)
 class FiveThousand(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
