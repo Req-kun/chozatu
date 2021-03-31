@@ -67,12 +67,10 @@ class FiveThousand(commands.Cog):
                 return
             cool.add(ctx.author.id)
             
-            msg = await ctx.send(embed=discord.Embed(title='Wait a few seconds...'))
-            print('wait a few seconds')
-            
             embed=discord.Embed(description='Powerd by [5000choyen-api](https://github.com/CyberRex0/5000choyen-api)')
             embed.set_image(url=urlcreate(top, bottom, hoshii, noalpha, rainbow))
-            await msg.edit(embed=embed)
+            print(embed.image)
+            await ctx.send(embed=embed)
             
             print('all process finished in image/5000choyen')
         except Exception as e:
