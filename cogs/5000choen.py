@@ -4,19 +4,9 @@ from discord_slash import cog_ext
 from discord_slash import SlashCommand
 from discord_slash import SlashContext
 import cooldown
-import aiohttp
-import io
-import asyncio
 import traceback
-import random, string
 
-def randomname(n):
-   randlst = [random.choice(string.ascii_letters + string.digits) for i in range(n)]
-   return ''.join(randlst)
 
-async def edit(msg, embed):
-    await msg.edit(embeds=[embed])
-    
 def urlcreate(top, bottom, hoshii, noalpha, rainbow):
     result = f'http://5000choyen.app.cyberrex.ml/image?top={top}&bottom={bottom}&type=png'
     if hoshii:
@@ -80,21 +70,9 @@ class FiveThousand(commands.Cog):
             msg = await ctx.send(embed=discord.Embed(title='Wait a few seconds...'))
             print('wait a few seconds')
             
-            print('aiohttp start')
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url=urlcreate(top, bottom, hoshii, noalpha, rainbow)) as r:
-                    read = await r.read()
-                    data = io.BytesIO(read)
-                    file = discord.File(data, f'{randomname(10)}.PNG')
-            print('aiohttp finish')
-            msg_ft = await self.bot.five_thousand.send(file=file)
-            print('FiveThousand sent')
             embed=discord.Embed(description='Powerd by [5000choyen-api](https://github.com/CyberRex0/5000choyen-api)')
-            embed.set_image(url=msg_ft.attachments[0].url)
-            #print(msg_ft.attachments[0].url)
-            print(embed.image)
+            embed.set_image(url=urlcreate(top, bottom, hoshii, noalpha, rainbow))
             await msg.edit(embed=embed)
-            
             
             print('all process finished in image/5000choyen')
         except Exception as e:
