@@ -6,7 +6,7 @@ from discord_slash import SlashContext
 from discord_slash import utils
 import os
 import re
-
+import datetime
 
 async def fetch_message(self, url):
     id_regex = re.compile(r'(?:(?P<channel_id>[0-9]{15,21})-)?(?P<message_id>[0-9]{15,21})$')
@@ -33,6 +33,11 @@ slash = SlashCommand(bot, sync_commands=True)
 
 bot.ready = False
 
+time_remove_role_regix = re.compile(
+    r'(?P<user_id>[0-9]{15,21})/'
+    r'(?P<role_id>[0-9]{15,21})/'
+    r'(?P<datetime>[0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}\:[0-9]{2}\:[0-9]{2}\.[0-9]{6})'
+)
 
 from glob import glob
 files = glob('./cogs/*')
@@ -65,7 +70,7 @@ async def on_ready():
         return
     #bot_id, token, guild_id
     #await utils.manage_commands.remove_all_commands_in(804649928638595093, TOKEN, 733707710784340100)
-
+    
     bot.guild = bot.get_guild(733707710784340100)
 
     # 運営ロールオブジェクトの取得
@@ -131,12 +136,45 @@ async def on_ready():
     bot.ng_words = []
     async for msg in bot.ng_word_ch.history(limit=None):
         bot.ng_words.append(msg.content)
-
+    
+    # ロール自動削除系
+    bot.time_remove_role_ch = await bot.fetch_channel(827091732268974110)
+    bot.time_remove_role = {}
+    bot.time_remove_role_guild = await bot.fetch_guild(733707710784340100)
+    
+    async for msg in bot.time_remove_role_ch.history(limit=None):
+        match = time_remove_role_regix.match(msg.content)
+        bot.time_remove_role[datetime.datetime.strptime(match.group('datetime'), '%Y-%m-%d %H:%M:%S.%f')] = dict(
+            user_id = int(match.group('user_id')),
+            role_id = int(match.group('role_id')),
+            message = msg
+        )
       
     # その他
     bot.ready = True
     print("ready")
+    
+    time_action_loop.stop()
+    time_action_loop.start()
     return
+
+@tasks.loop(seconds=60.0)
+async def time_action_loop():
+    delete_keys = []
+    now = datetime.datetime.utcnow()
+    for _datatime in bot.time_remove_role.keys():
+        if now > _datatime:
+            try:
+                member = await bot.time_remove_role_guild.fetch_member(bot.time_remove_role[_datatime]['user_id'])
+                role = bot.time_remove_role_guild.get_role(bot.time_remove_role[_datatime]['role_id'])
+                await member.remove_roles(role)
+                await bot.time_remove_role[_datatime]['message'].delete()
+                delete_keys.append(_datatime)
+            except:
+                traceback.print_exc()
+        
+    for key in delete_keys:
+        del bot.time_remove_role[key]
 
 @bot.event
 async def on_slash_command(ctx):
