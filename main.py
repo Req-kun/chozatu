@@ -157,7 +157,7 @@ async def on_ready():
         if msg.author.bot or msg.content.startswith(bot.command_prefix) or msg.content.startswith('!') or msg.content in bot.siritori_list:
             continue
         bot.siritori_list.insert(0, msg.content)
-    self.bot.siritori = True
+    bot.siritori = True
       
     # その他
     bot.ready = True
