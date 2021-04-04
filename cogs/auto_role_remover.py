@@ -17,6 +17,7 @@ class AutoRoleRemover(commands.Cog):
         minutes = '0m'
         hours = '0h'
         days = '0d'
+        weeks = '0w'
         for timeoption in timeoptions:
             if timeoption.endswith('m'):
                 minutes = timeoption
@@ -24,7 +25,9 @@ class AutoRoleRemover(commands.Cog):
                 hours = timeoption
             elif timeoption.endswith('d'):
                 days = timeoption
-        delta = datetime.timedelta(minutes=int(minutes[:-1]), hours=int(hours[:-1]), days=int(days[:-1]))
+            elif timeoption.endswith('w'):
+                weeks = timeoption
+        delta = datetime.timedelta(minutes=int(minutes[:-1]), hours=int(hours[:-1]), days=int(days[:-1]), weeks=weeks[:-1])
         now = datetime.datetime.utcnow()
         tyming = now + delta
         msg = await self.bot.time_remove_role_ch.send(f'{user.id}/{role.id}/{tyming}')

@@ -149,6 +149,15 @@ async def on_ready():
             role_id = int(match.group('role_id')),
             message = msg
         )
+    
+    # しりとり関連
+    bot.siritori_ch = bot.get_channel(827104884246708254)
+    bot.siritori_list = []
+    async for msg in bot.siritori_ch.history(limit=None):
+        if msg.author.bot or msg.content.startswith(bot.command_prefix) or msg.content.startswith('!') or msg.content in bot.siritori_list:
+            continue
+        bot.siritori_list.insert(0, msg.content)
+    self.bot.siritori = True
       
     # その他
     bot.ready = True
