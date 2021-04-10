@@ -7,6 +7,16 @@ from discord_slash import utils
 import os
 import re
 import datetime
+from pykakasi import kakasi
+
+kakasi = kakasi()
+kakasi.setMode('J', 'H') 
+conv = kakasi.getConverter()
+
+def to_h(self, text):
+    return conv.do(text)
+
+commands.Bot.to_h = to_h
 
 async def fetch_message(self, url):
     id_regex = re.compile(r'(?:(?P<channel_id>[0-9]{15,21})-)?(?P<message_id>[0-9]{15,21})$')
