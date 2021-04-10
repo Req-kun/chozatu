@@ -20,7 +20,7 @@ class CheckType(commands.Cog):
             await ctx.reply(embed=discord.Embed(title='Type: Channel', description=channel.mention, color=0x00ffff))
             return
         else:
-            await ctx.reply(embed=discord.Embed(title='Coundn\'t find', color=0xff0000))
+            await ctx.reply(embed=discord.Embed(title='Couldn\'t find', color=0xff0000))
             return
 
 def setup(bot):
