@@ -61,9 +61,10 @@ class Eval(commands.Cog):
         
         env.update(globals())
         
+        body = body[len('await')+1:] if not body.startswith('await') else body
         if body.startswith('await'):
             try:
-                ret = await eval(body[len('await')+1:], env)
+                ret = await eval(body, env)
             except:
                 return await ctx.send(f'```\n{traceback.format_exc()}\n```')
             await ctx.send(f'```\n{ret}\n```')
