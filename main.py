@@ -122,8 +122,9 @@ async def on_ready():
     #運営部屋取得
     bot.unei_ch = bot.get_channel(738397603439444028)
 
-    # approve部屋取得
+    # approve関連
     bot.approve_ch = bot.get_channel(815906779736178728)
+    bot.wait_until_approve_role = bot.guild.get_role(830362058838245436)
 
     # ボイスチャット時間報酬関連
     bot.voice_time_ch = bot.get_channel(814705911032578118)

@@ -37,53 +37,6 @@ class Autoui(commands.Cog):
         self._last_member = None
 
 
-    """ 認証メッセージ編集 """
-    @commands.Cog.listener()
-    async def on_raw_message_edit(self, payload):
-        payload.channel = self.bot.get_channel(payload.channel_id)
-        payload.message = await payload.channel.fetch_message(payload.message_id)
-
-        # 超雑談鯖以外をはじく
-        if not payload.channel.guild.id == 733707710784340100:
-            return
-
-        # 認証部屋以外をはじく
-        if not payload.channel.id == 826353003984191538:
-            return
-
-        # Botをはじく
-        if payload.message.author.bot:
-            return
-
-        # 認証情報メッセージをさがす
-        async for msg in self.bot.approve_ch.history(limit=100):
-            # 専属Bot以外をはじく
-            if not msg.author.id == 804649928638595093:
-                continue
-
-            # 判定１
-            if len(msg.embeds) > 0:
-                embed = msg.embeds[0]
-                # 判定２
-                if not embed.title == 'ユーザ情報':
-                    continue
-                # 判定３
-                if embed.author.name.endswith(f'{str(payload.message.author.id)})'):
-                    await msg.edit(embed=make(
-                        title='ユーザ情報',
-                        description='この情報で表示されている時間情報はUTCを用いられています。\n日本(東京)時間への変換は `+9時間` してください。',
-                        author={"name": f'{payload.message.author.name}(ID:{payload.message.author.id})', "icon_url": payload.message.author.avatar_url},
-                        fields=[
-                            {"name": "アカウント作成日時", "value": payload.message.author.created_at},
-                            {"name": "サーバー参加日時", "value": payload.message.author.joined_at},
-                            {"name": "認証情報(編集済み)", "value": payload.message.content, "inline": False}
-                        ],
-                        footer={"text": f"-approve {payload.message.author.id}"},
-                        color=0x00ffff
-                    ))
-                    return
-
-
     """ 認証メッセージ送信 """
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -98,7 +51,9 @@ class Autoui(commands.Cog):
         # 認証部屋以外をはじく
         if not message.channel.id == 826353003984191538:
             return
-
+        
+        await message.author.add_roles(self.bot.wait_until_approve_role)
+        
         # 送信待機メッセージをさがす
         async for msg in self.bot.approve_ch.history(limit=100):
             # 専属Bot以外をはじく
