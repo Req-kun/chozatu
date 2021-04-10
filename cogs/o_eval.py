@@ -6,7 +6,8 @@ import textwrap
 from contextlib import redirect_stdout
 import io
 import subprocess
-
+import re
+pat = re.compile(r'(ctx|channel|ctx\.channel)\.send')
 
 # to expose to the eval command
 class Eval(commands.Cog):
@@ -70,11 +71,19 @@ class Eval(commands.Cog):
         
         if not body.startswith('```'):
             if body.startswith('await'):
-                try:
-                    ret = await eval(body, env)
-                    return await ctx.send(f'```py\n{ret}\n```')
-                except:
-                    return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
+                body = body[len('await')+1:]
+                # send関係
+                if pat.match(body):
+                    try:
+                        return await eval(body, env)
+                    except:
+                        return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
+                else:
+                    try:
+                        ret = await eval(body, env)
+                        return await ctx.send(f'```py\n{ret}\n```')
+                    except:
+                        return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
             else:
                 try:
                     return await ctx.send(f'```py\n{eval(body, env)}\n```')
