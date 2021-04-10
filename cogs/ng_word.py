@@ -47,7 +47,7 @@ class Ng_word(commands.Cog):
                 text = text.replace(ng_word, r'\*'*len(ng_word))
         if not message.content == text:
             await message.delete()
-            await ctx.send(embed=discord.Embed(description=text, color=0xff0000).set_author(icon_url=message.author.avatar_url, name=message.author.display_name).set_footer(text='NG WORD', icon_url='https://illustcut.com/box/hanko/001/ng1.png'))
+            await message.channel.send(embed=discord.Embed(description=text, color=0xff0000).set_author(icon_url=message.author.avatar_url, name=message.author.display_name).set_footer(text='NG WORD', icon_url='https://illustcut.com/box/hanko/001/ng1.png'))
             return
 
 def setup(bot):
