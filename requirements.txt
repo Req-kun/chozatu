@@ -6,3 +6,4 @@ pytz
 requests
 akinator.py[async]
 async-google-trans-new
+pykakasi
