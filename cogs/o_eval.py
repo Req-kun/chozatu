@@ -91,7 +91,7 @@ class Eval(commands.Cog):
                 # 変数代入
                 if re.compile(f'({"|".join(globals().keys())})' + r'(\..{1,})? ?=').match(body):
                     try:
-                        return exec(body)
+                        return exec(body, env)
                     except:
                         return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
                 try:
