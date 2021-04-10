@@ -61,8 +61,8 @@ class Eval(commands.Cog):
         
         env.update(globals())
         
-        body = body[len('await')+1:] if body.startswith('await') else body
         if body.startswith('await'):
+            body = body[len('await')+1:]
             try:
                 ret = await eval(body, env)
             except:
