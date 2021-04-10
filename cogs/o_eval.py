@@ -70,14 +70,17 @@ class Eval(commands.Cog):
         env.update(globals())
         
         if not body.startswith('```'):
+            
             if body.startswith('await'):
                 body = body[len('await')+1:]
-                # send関係
+                
+                # send
                 if pat.match(body):
                     try:
                         return await eval(body, env)
                     except:
                         return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
+                
                 else:
                     try:
                         ret = await eval(body, env)
@@ -85,8 +88,14 @@ class Eval(commands.Cog):
                     except:
                         return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
             else:
+                # 変数代入
+                if re.compile(f'({'|'.join(globals().keys)})' + r'(\..{1,})? ?=').match(body):
+                    try:
+                        return exec(body)
+                    except:
+                        return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
                 try:
-                    return await ctx.send(f'```py\n{eval(body, env)}\n```')
+                    return await ctx.send(f'```py\n{exec(body, env)}\n```')
                 except:
                     return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
                     
