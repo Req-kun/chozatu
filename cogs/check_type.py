@@ -5,7 +5,7 @@ class CheckType(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
-    @commands.commands(name='check_type', aliases=['ct', 'checktype'])
+    @commands.command(name='check_type', aliases=['ct', 'checktype'])
     async def _check_type(self, ctx, id):
         if user := bot.get_user(id):
             await ctx.reply(embed=discord.Embed(title='Type: User', description=user.mention, color=0x00ffff))
