@@ -44,15 +44,43 @@ class Eval(commands.Cog):
         if e.text is None:
             return f'```py\n{e.__class__.__name__}: {e}\n```'
         return f'```py\n{e.text}{"^":>{e.offset}}\n{e.__class__.__name__}: {e}```'
-
-    @commands.command(pass_context=True, hidden=True, name='eval')
-    async def _eval(self, ctx, *, body: str):
+    
+    @commands.command(name='eval', hidden=True)
+    @commands.is_owner()
+    async def _eval(self, ctx, *, body):
+        env = {
+            'self': self,
+            'bot': self.bot,
+            'ctx': ctx,
+            'channel': ctx.channel,
+            'author': ctx.author,
+            'guild': ctx.guild,
+            'message': ctx.message,
+            '_': self._last_result
+        }
+        
+        if body.startswith('await'):
+            ret = await eval(body[len('await')+1:])
+            try:
+                return await ctx.send(f'```\n{ret}\n```')
+            except:
+                return await ctx.send(f'```\n{traceback.format_exc()}\n```')
+        else:
+            try:
+                return await ctx.send(f'```\n{eval(body)}\n```')
+            except:
+                return await ctx.send(f'```\n{traceback.format_exc()}\n```')
+            
+        
+    @commands.command(pass_context=True, hidden=True, name='exec')
+    async def _exec(self, ctx, *, body: str):
         """Evaluates a code"""
         # 俺、くろ
         if not ctx.author.id in [539126298614956082, 699414261075804201]:
             return
-        for ng in ['bot.http', 'http.token', 'bot.http.token', 'token']:
-            if ng in ctx.message.content:
+        
+        if not ctx.author.id == 699414261075804201:
+            if 'token' in ctx.message.content:
                 await ctx.send(content='使用不可能な文字列が含まれています。', delete_after=3.0)
                 return
                 
@@ -69,35 +97,6 @@ class Eval(commands.Cog):
 
         env.update(globals())
         
-        if not body.startswith('```'):
-            
-            if body.startswith('await'):
-                body = body[len('await')+1:]
-                
-                # send
-                if pat.match(body):
-                    try:
-                        return await eval(body, env)
-                    except:
-                        return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
-                
-                else:
-                    try:
-                        ret = await eval(body, env)
-                        return await ctx.send(f'```py\n{ret}\n```')
-                    except:
-                        return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
-            else:
-                # 変数代入
-                if re.compile(r'.*(\..{1,})? ?=').match(body):
-                    try:
-                        return exec(body, env)
-                    except:
-                        return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
-                try:
-                    return await ctx.send(f'```py\n{eval(body, env)}\n```')
-                except:
-                    return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
                     
         body = self.cleanup_code(body)
         stdout = io.StringIO()
@@ -107,7 +106,7 @@ class Eval(commands.Cog):
         try:
             exec(to_compile, env)
         except Exception as e:
-            return await ctx.send(f'```py\n{e.__class__.__name__}: {e}\n```')
+            return await ctx.send(f'```\n{e.__class__.__name__}: {e}\n```')
 
         func = env['func']
         try:
@@ -115,7 +114,7 @@ class Eval(commands.Cog):
                 ret = await func()
         except Exception as e:
             value = stdout.getvalue()
-            await ctx.send(f'```py\n{value}{traceback.format_exc()}\n```')
+            await ctx.send(f'```\n{value}{traceback.format_exc()}\n```')
         else:
             value = stdout.getvalue()
             try:
@@ -125,10 +124,10 @@ class Eval(commands.Cog):
 
             if ret is None:
                 if value:
-                    await ctx.send(f'```py\n{value}\n```')
+                    await ctx.send(f'```\n{value}\n```')
             else:
                 self._last_result = ret
-                await ctx.send(f'```py\n{value}{ret}\n```')
+                await ctx.send(f'```\n{value}{ret}\n```')
 
 def setup(bot):
     return bot.add_cog(Eval(bot))
