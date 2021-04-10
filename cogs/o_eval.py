@@ -59,15 +59,17 @@ class Eval(commands.Cog):
             '_': self._last_result
         }
         
+        env.update(globals())
+        
         if body.startswith('await'):
-            ret = await eval(body[len('await')+1:])
+            ret = await eval(body[len('await')+1:], env)
             try:
                 return await ctx.send(f'```\n{ret}\n```')
             except:
                 return await ctx.send(f'```\n{traceback.format_exc()}\n```')
         else:
             try:
-                return await ctx.send(f'```\n{eval(body)}\n```')
+                return await ctx.send(f'```\n{eval(body, env)}\n```')
             except:
                 return await ctx.send(f'```\n{traceback.format_exc()}\n```')
             
