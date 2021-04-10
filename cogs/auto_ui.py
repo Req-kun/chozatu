@@ -48,7 +48,7 @@ class Autoui(commands.Cog):
             return
 
         # 認証部屋以外をはじく
-        if not payload.channel.id == 739056631647830076:
+        if not payload.channel.id == 826353003984191538:
             return
 
         # Botをはじく
@@ -96,7 +96,7 @@ class Autoui(commands.Cog):
             return
 
         # 認証部屋以外をはじく
-        if not message.channel.id == 739056631647830076:
+        if not message.channel.id == 826353003984191538:
             return
 
         # 送信待機メッセージをさがす
