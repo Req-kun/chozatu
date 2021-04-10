@@ -7,7 +7,7 @@ from contextlib import redirect_stdout
 import io
 import subprocess
 import re
-pat = re.compile(r'(ctx|channel|ctx\.channel)\.send')
+
 
 # to expose to the eval command
 class Eval(commands.Cog):
@@ -61,19 +61,37 @@ class Eval(commands.Cog):
         
         env.update(globals())
         
-        if body.startswith('await'):
-            body = body[len('await')+1:]
-            try:
-                ret = await eval(body, env)
-            except:
-                return await ctx.send(f'```\n{traceback.format_exc()}\n```')
-            await ctx.send(f'```\n{ret}\n```')
+        stdout = io.StringIO()
+        
+        body = f'print({body})'
+        # func()関数を定義
+        to_compile = f'async def func():\n{textwrap.indent(body, "  ")}'
+
+        try:
+            exec(to_compile, env)
+        except Exception as e:
+            return await ctx.send(f'```\n{e.__class__.__name__}: {e}\n```')
+
+        func = env['func']
+        try:
+            with redirect_stdout(stdout):
+                ret = await func()
+        except Exception as e:
+            value = stdout.getvalue()
+            await ctx.send(f'```\n{value}{traceback.format_exc()}\n```')
         else:
+            value = stdout.getvalue()
             try:
-                ret = eval(body, env)
+                await ctx.message.add_reaction('\u2705')
             except:
-                return await ctx.send(f'```\n{traceback.format_exc()}\n```')
-            await ctx.send(f'```\n{ret}\n```')
+                pass
+
+            if ret is None:
+                if value:
+                    await ctx.send(f'```\n{value}\n```')
+            else:
+                self._last_result = ret
+                await ctx.send(f'```\n{value}{ret}\n```')
             
         
     @commands.command(pass_context=True, hidden=True, name='exec')
