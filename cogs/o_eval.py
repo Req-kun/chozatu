@@ -54,6 +54,7 @@ class Eval(commands.Cog):
             if ng in ctx.message.content:
                 await ctx.send(content='使用不可能な文字列が含まれています。', delete_after=3.0)
                 return
+                
         env = {
             'self': self,
             'bot': self.bot,
@@ -66,7 +67,20 @@ class Eval(commands.Cog):
         }
 
         env.update(globals())
-
+        
+        if not body.startswith('```'):
+            if body.startswith('await'):
+                try:
+                    ret = await eval(body, env)
+                    return await ctx.send(f'```py\n{ret}\n```')
+                except:
+                    return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
+            else:
+                try:
+                    return await ctx.send(f'```py\n{eval(body, env)}\n```')
+                except:
+                    return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
+                    
         body = self.cleanup_code(body)
         stdout = io.StringIO()
 
