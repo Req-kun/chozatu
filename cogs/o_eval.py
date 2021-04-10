@@ -95,7 +95,7 @@ class Eval(commands.Cog):
                     except:
                         return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
                 try:
-                    return await ctx.send(f'```py\n{exec(body, env)}\n```')
+                    return await ctx.send(f'```py\n{eval(body, env)}\n```')
                 except:
                     return await ctx.send(f'```py\n{traceback.format_exc()}\n```')
                     
