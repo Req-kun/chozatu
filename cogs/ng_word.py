@@ -41,6 +41,9 @@ class Ng_word(commands.Cog):
             return
         if message.content.startswith(f'{self.bot.command_prefix}ngw'):
             return
+        if message.content in 'りあさん':
+            await message.delete()
+            return
         text = message.content
         for ng_word in self.bot.ng_words:
             if ng_word in message.content:

@@ -161,6 +161,11 @@ async def on_ready():
             message = msg
         )
     
+    # メッセージレポート機能関連
+    report_channel = bot.get_channel(832673894410092614)
+    whs = await report_channel.webhooks()
+    bot.report_wh = discord.utils.get(whs, name='main')
+    
     # しりとり関連
     bot.siritori_ch = bot.get_channel(827104884246708254)
     bot.siritori_list = []
