@@ -5,6 +5,7 @@ import asyncio
 import re
 import datetime
 
+user_id_pat = re.compile(r'-approve (?P<user_id>[0-9]*)$')
 
 class Delta_to:
     def __init__(self, day, hour, min, sec, milli, micro):
@@ -50,6 +51,25 @@ class Autoui(commands.Cog):
 
         # 認証部屋以外をはじく
         if not message.channel.id == 826353003984191538:
+            if message.channel.id == 815906779736178728 and message.content.startswith('-approve'):
+                id = user_id_pat.match(message.content).group('user_id')
+                async for msg in self.bot.approve_ch.history(limit=100):
+                    # 専属Bot以外をはじく
+                    if not msg.author.id == 804649928638595093:
+                        continue
+        
+                    # 送信待機メッセージ判定１
+                    if len(msg.embeds) > 0:
+                        embed = msg.embeds[0]
+        
+                        # 送信待機メッセージ判定２
+                        if not embed.title == 'ユーザ情報':
+                            continue
+        
+                        # 送信待機メッセージ判定３
+                        if embed.author.name.endswith(f'{id)})'):
+                            await msg.edit(embed=discord.Embed('approved').set_author(name=f'{msg.author.name}(ID:{msg.author.id})', icon_url=msg.author.avatar_url))
+                            return
             return
         
         await message.author.add_roles(self.bot.wait_until_approve_role)
