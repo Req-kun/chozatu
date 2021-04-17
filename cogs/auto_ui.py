@@ -68,7 +68,7 @@ class Autoui(commands.Cog):
         
                         # 送信待機メッセージ判定３
                         if embed.author.name.endswith(f'{id})'):
-                            await msg.edit(embed=discord.Embed('approved').set_author(name=f'{msg.author.name}(ID:{msg.author.id})', icon_url=msg.author.avatar_url))
+                            await msg.edit(embed=discord.Embed(title='approved').set_author(name=f'{msg.author.name}(ID:{msg.author.id})', icon_url=msg.author.avatar_url))
                             return
             return
         
