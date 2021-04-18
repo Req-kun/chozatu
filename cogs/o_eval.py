@@ -95,17 +95,10 @@ class Eval(commands.Cog):
             
         
     @commands.command(pass_context=True, hidden=True, name='exec')
+    @commands.is_owner()
     async def _exec(self, ctx, *, body: str):
         """Evaluates a code"""
-        # 俺、くろ
-        if not ctx.author.id in [539126298614956082, 699414261075804201]:
-            return
         
-        if not ctx.author.id == 699414261075804201:
-            if 'token' in ctx.message.content:
-                await ctx.send(content='使用不可能な文字列が含まれています。', delete_after=3.0)
-                return
-                
         env = {
             'self': self,
             'bot': self.bot,
