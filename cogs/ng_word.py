@@ -31,6 +31,7 @@ class Ng_word(commands.Cog):
                     if msg.content == sentence:
                         await msg.delete()
                         self.bot.ng_words.remove(sentence)
+                        await ctx.send('削除しました')
                         return
 
 
@@ -48,7 +49,7 @@ class Ng_word(commands.Cog):
         text = message.content
         for ng_word in self.bot.ng_words:
             if ng_word.startswith('!re '):
-                pat = re.compile(repr(ng_word[len('!re '):]))
+                pat = re.compile(ng_word[len('!re '):])
                 if found := pat.findall(text):
                     for f in found:
                         text = text.replace(f, r'\*' * len(f))
