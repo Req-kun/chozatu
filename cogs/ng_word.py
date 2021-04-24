@@ -1,5 +1,5 @@
 from discord.ext import commands
-import discord
+import discord, re
 
 
 class Ng_word(commands.Cog):
@@ -20,6 +20,7 @@ class Ng_word(commands.Cog):
             else:
                 await self.bot.ng_word_ch.send(sentence)
                 self.bot.ng_words.append(sentence)
+                await ctx.send('追加しました')
                 return
         if mode == 'remove':
             if not sentence in self.bot.ng_words:
