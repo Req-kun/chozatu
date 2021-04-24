@@ -46,8 +46,15 @@ class Ng_word(commands.Cog):
             return
         text = message.content
         for ng_word in self.bot.ng_words:
-            if ng_word in message.content:
+            if ng_word.startswith('!re '):
+                pat = re.compile(repr(ng_word[len('!re '):]))
+                if found := pat.findall(text):
+                    for f in found:
+                        text = text.replace(f, r'\*' * len(f))
+                    
+            elif ng_word in message.content:
                 text = text.replace(ng_word, r'\*'*len(ng_word))
+                
         if not message.content == text:
             await message.delete()
             await message.channel.send(embed=discord.Embed(description=text, color=0xff0000).set_author(icon_url=message.author.avatar_url, name=message.author.display_name).set_footer(text='NG WORD', icon_url='https://illustcut.com/box/hanko/001/ng1.png'))
