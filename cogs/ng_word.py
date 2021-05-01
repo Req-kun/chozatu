@@ -27,7 +27,7 @@ class Ng_word(commands.Cog):
                 await ctx.send('存在しないNGワードです', delete_after=10.0)
                 return
             else:
-                async for msg in  self.bot.ng_word_ch.history(limit=None):
+                async for msg in self.bot.ng_word_ch.history(limit=None):
                     if msg.content == sentence:
                         await msg.delete()
                         self.bot.ng_words.remove(sentence)

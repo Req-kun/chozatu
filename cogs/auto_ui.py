@@ -57,23 +57,23 @@ class Autoui(commands.Cog):
                     # 専属Bot以外をはじく
                     if not msg.author.id == 804649928638595093:
                         continue
-        
+
                     # 送信待機メッセージ判定１
                     if len(msg.embeds) > 0:
                         embed = msg.embeds[0]
-        
+
                         # 送信待機メッセージ判定２
                         if not embed.title == 'ユーザ情報':
                             continue
-        
+
                         # 送信待機メッセージ判定３
                         if embed.author.name.endswith(f'{id})'):
                             await msg.edit(embed=discord.Embed(title='approved').set_author(name=msg.embeds[0].author.name, icon_url=msg.embeds[0].author.icon_url))
                             return
             return
-        
+
         await message.author.add_roles(self.bot.wait_until_approve_role)
-        
+
         # 送信待機メッセージをさがす
         async for msg in self.bot.approve_ch.history(limit=100):
             # 専属Bot以外をはじく
@@ -90,7 +90,7 @@ class Autoui(commands.Cog):
 
                 # 送信待機メッセージ判定３
                 if embed.author.name.endswith(f'{str(message.author.id)})'):
-                    await msg.edit(embed=make(
+                    await msg.edit(content=f"-approve {message.author.id}", embed=make(
                         title='ユーザ情報',
                         description='この情報で表示されている時間情報はUTCを用いられています。\n日本(東京)時間への変換は `+9時間` してください。',
                         author={"name": f'{message.author.name}(ID:{message.author.id})', "icon_url": message.author.avatar_url},
@@ -99,7 +99,6 @@ class Autoui(commands.Cog):
                             {"name": "サーバー参加日時", "value": message.author.joined_at},
                             {"name": "認証情報", "value": message.content, "inline": False}
                         ],
-                        footer={"text": f"-approve {message.author.id}"},
                         color=0x00ffff
                     ))
                     return
@@ -118,6 +117,7 @@ class Autoui(commands.Cog):
 
         # 送信待機メッセージを送信
         await self.bot.approve_ch.send(
+            content=f"-approve {member.id}",
             embed=make(
                 title='ユーザ情報',
                 author={"name": f"{member.name}(ID: {member.id})", "icon_url": member.avatar_url},
@@ -125,8 +125,7 @@ class Autoui(commands.Cog):
                 fields=[
                     {"name": "アカウント作成日時", "value": member.created_at},
                     {"name": "サーバー参加日時", "value": member.joined_at}
-                ],
-                footer={"text": f"-approve {member.id}"}
+                ]
             )
         )
 
