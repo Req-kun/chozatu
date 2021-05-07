@@ -1,0 +1,41 @@
+{
+    "guild": 733707710784340100,
+
+    "unei_role": 738956776258535575,
+    "unei_ch": 738397603439444028,
+
+    "slash_hist": 805254420169752596,
+
+    "yutron_image_ch": 805397016578097222,
+    "scs_image_ch": 809788276801667083,
+
+    "rule_basic_ch": 734062426873397248,
+    "rule_basic_msg": 741993354795024394,
+
+    "rule_mcserver_ch": 792674991426502656,
+    "rule_mcserver_msg": 792675496071921676,
+
+    "rule_siritori_ch": 745645296968794233,
+    "rule_siritori_msg": 745645905192943721,
+
+    "pin_ch": 805787370150559784,
+
+    "ready_ch": 807444910621720606,
+
+    "approve_ch": 815906779736178728,
+    "wait_until_approve_role": 830362058838245436,
+
+    "voice_time_ch": 814705911032578118,
+
+    "voice_money_min": 200,
+    "voice_money_max": 400,
+    "voice_give_per": 20,
+
+    "ng_word_ch": 818012708167221248,
+
+    "time_remove_role_ch": 827091732268974110,
+
+    "report_channel": 832673894410092614,
+
+    "siritori_ch": 827104884246708254
+}
