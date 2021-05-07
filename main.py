@@ -112,7 +112,7 @@ async def on_ready():
     rule_basic_ch = bot.get_channel(config['rule_basic_ch'])
     rule_basic_msg = await rule_basic_ch.fetch_message(config['rule_basic_msg'])
 
-    rule_mcserver_ch = bot.get_channel(config['rule_mcserver_msg'])
+    rule_mcserver_ch = bot.get_channel(config['rule_mcserver_ch'])
     rule_mcserver_msg = await rule_mcserver_ch.fetch_message(config['rule_mcserver_msg'])
 
     rule_siritori_ch = bot.get_channel(config['rule_siritori_ch'])
